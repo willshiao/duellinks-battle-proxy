@@ -26,7 +26,7 @@ proxy.onRequest(function(ctx, callback) {
     });
 
     ctx.onResponseEnd((ctx, callback) => {
-      let body = parseRequest(Buffer.concat(chunks));
+      const body = parseRequest(Buffer.concat(chunks));
       ctx.proxyToClientResponse.write(body);
       fs.appendFile('responses.txt', body.toString() + '\n=======================================================\n', () => {
       });
@@ -62,7 +62,7 @@ function editRequest(data) {
   console.log('Found battle.');
   console.log('Their deck (original):', prettyDeck(theirDeck.Main.CardIds));
   console.log('My deck:', prettyDeck(myDeck.Main.CardIds));
-  
+
   if(REPLACE_THEIR_DECK) {
     theirDeck.Main.CardIds = theirReplacementDeck;
     theirDeck.Main.Rare = Array(theirDeck.Main.CardIds.length).fill(1);
@@ -77,21 +77,21 @@ function editRequest(data) {
     // Make all my cards rare
     myDeck.Main.Rare = myDeck.Main.Rare.map(c => 2);
   }
-  
+
   console.log('My new deck:', prettyDeck(myDeck.Main.CardIds));
   console.log('Their new deck:', prettyDeck(theirDeck.Main.CardIds));
   console.log('========================================');
 
   data.res[0][1].Duel.Deck[0] = myDeck;
   data.res[0][1].Duel.Deck[1] = theirDeck;
-  
+
   return data;
 }
 
 function prettyDeck(deckIds) {
   return deckIds.map(id => {
     if(id in cardMap)
-      return cardMap[id] + ` (${id})`
+      return cardMap[id] + ` (${id})`;
     return id;
   });
 }
