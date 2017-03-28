@@ -27,6 +27,8 @@ node duel-proxy.js
 
 You also have to trust the generated SSL certificate (`.http-mitm-proxy/certs/ca.pem`) on the target device and forward traffic to the HTTPS proxy server (port `8000` by default).
 
+Modify `theirReplacementDeck` in `duel-proxy.js` to an array of the card IDs you want the other player to have and `myReplacementDeck` to the card IDs you want yourself to have. Note that replacement of their deck and your deck only occurs if `REPLACE_THEIR_DECK` and `REPLACE_MY_DECK` are true.
+
 
 ## Possible Fixes
 One way to fix this vulnerbility is to use a [HMAC](https://en.wikipedia.org/wiki/Hash-based_message_authentication_code) to verify the contents of the server response (it seems like client requests already use some sort of MAC, but not server responses).
