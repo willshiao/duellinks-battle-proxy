@@ -14,6 +14,9 @@ const myReplacementDeck = [];
 
 const MAKE_RARE = true;
 
+const ENABLE_LOGGING = true;
+const DIVIDER_STRING = '\n=======================================================\n';
+const LOG_FILE = 'responses.txt';
 
 proxy.onRequest(function(ctx, callback) {
   if (ctx.clientToProxyRequest.headers.host == 'att-jpb.mo.konami.net') {
@@ -28,15 +31,21 @@ proxy.onRequest(function(ctx, callback) {
     ctx.onResponseEnd((ctx, callback) => {
       const body = parseRequest(Buffer.concat(chunks));
       ctx.proxyToClientResponse.write(body);
-      fs.appendFile('responses.txt', body.toString() + '\n=======================================================\n', () => {
-      });
-      return callback();
+      if(ENABLE_LOGGING) {
+        fs.appendFile(LOG_FILE, body.toString() + DIVIDER_STRING, () => {
+          return callback();
+        });
+      } else {
+        return callback();
+      }
     });
   }
   return callback();
 });
 
-proxy.listen({port: 8000});
+proxy.listen({port: 8000}, () => {
+  console.log('Listening on port 8000.');
+});
 
 function parseRequest(chunk) {
   let req = chunk.toString();
