@@ -35,3 +35,13 @@ jspm_packages
 
 # Optional REPL history
 .node_repl_history
+
+# Ignore Sublime Text project files
+*.sublime-project
+*.sublime-workspace
+
+# Ignore http-mitm-proxy certificate folder
+.http-mitm-proxy
+
+# Ignore responses file
+responses.txt
