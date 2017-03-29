@@ -56,7 +56,10 @@ function parseRequest(chunk) {
     data = editRequest(data);
     req = '@' + JSON.stringify(data);
   } catch(e) {
-    console.error('Failed to parse JSON: ', e);
+    if(e.name == 'TypeError')
+      console.error('Invalid JSON.');
+    else
+      console.log('Unknown error:', e);
     return chunk;
   }
   return req;
