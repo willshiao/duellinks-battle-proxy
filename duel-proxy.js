@@ -16,8 +16,12 @@ const ext = {
   fs.watchFile(`./${fileName}.js`, (curr, prev) => {
     if(curr.mtime == prev.mtime) return;  // Do nothing if file was not modified
     delete require.cache[require.resolve(`./${fileName}`)];  // Clear cached require entry
-    ext[varName] = require(`./${fileName}`);  // Reload config
-    console.log(`${fileName}.js modified, reloading file...`);
+    try {
+      ext[varName] = require(`./${fileName}`);  // Reload config
+      console.log(`${fileName}.js modified, reloaded file.`);
+    } catch(err) {
+      console.error(`Failed to reload ${fileName}.js: `, err);
+    }
   });
 });
 
@@ -93,9 +97,13 @@ function editRequest(data) {
     data.res[0][1].Duel.auto = 1;
   }
 
-  if(ext.config.makeRare) {
+  if(ext.config.makeMineRare) {
     // Make all my cards rare
     myDeck.Main.Rare = myDeck.Main.Rare.map(c => 3);
+  }
+  if(ext.config.makeTheirsRare) {
+    // Make all my cards rare
+    myDeck.Main.Rare = theirDeck.Main.Rare.map(c => 3);
   }
 
   if(ext.config.replace.randSeed) {

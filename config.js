@@ -8,12 +8,13 @@ module.exports =
     randSeed: false  // If true, replaces the RandSeed value
   },
   new: {
-    theirDeck: [], // The replacement deck for them, if replace.theirDeck is true
+    theirDeck: [],  // The replacement deck for them, if replace.theirDeck is true
     myDeck: [],  // The replacement deck for you, if replace.myDeck is true
     randSeed: 13371337,  // The replacement RandSeed, if replace.randSeed is true
   },
 
-  makeRare: true,  // If enabled, makes all of your cards prismatic
+  makeMineRare: true,  // If enabled, makes all of your cards prismatic
+  makeTheirsRare: true,
   enableAuto: true, // If enabled, enables auto-dueling for all duelists
 
   logging: {
