@@ -12,7 +12,11 @@ const theirReplacementDeck = [];
 const REPLACE_MY_DECK = false;
 const myReplacementDeck = [];
 
+const REPLACE_RAND_SEED = true;
+const newRandSeed = 13371337;
+
 const MAKE_RARE = true;
+const ENABLE_AUTO = true;
 
 const ENABLE_LOGGING = true;
 const DIVIDER_STRING = '\n=======================================================\n';
@@ -72,6 +76,7 @@ function editRequest(data) {
   const theirDeck = data.res[0][1].Duel.Deck[1];
 
   console.log('Found battle.');
+  console.log('Random Seed (original):', data.res[0][1].Duel.RandSeed);
   console.log('Their deck (original):', prettyDeck(theirDeck.Main.CardIds));
   console.log('My deck:', prettyDeck(myDeck.Main.CardIds));
 
@@ -85,11 +90,20 @@ function editRequest(data) {
     myDeck.Main.Rare = Array(myDeck.Main.CardIds.length).fill(1);
   }
 
-  if(MAKE_RARE) {
-    // Make all my cards rare
-    myDeck.Main.Rare = myDeck.Main.Rare.map(c => 2);
+  if(ENABLE_AUTO) {
+    data.res[0][1].Duel.auto = 1;
   }
 
+  if(MAKE_RARE) {
+    // Make all my cards rare
+    myDeck.Main.Rare = myDeck.Main.Rare.map(c => 3);
+  }
+
+  if(REPLACE_RAND_SEED) {
+    data.res[0][1].Duel.RandSeed = newRandSeed;
+  }
+
+  console.log('New Random Seed:', data.res[0][1].Duel.RandSeed);
   console.log('My new deck:', prettyDeck(myDeck.Main.CardIds));
   console.log('Their new deck:', prettyDeck(theirDeck.Main.CardIds));
   console.log('========================================');
