@@ -44,4 +44,9 @@ module.exports =
   5895: 'Levia-Dragon - Daedalus',              // Monster Card   - [Sea Serpent] 2600 ATK, 1500 DEF. Send 1 face-up "Umi" card to the graveyard. Destroy all other cards on the field.
   7946: 'Naturia Guardian',
   5703: 'Arsenal Summoner',                     // Monster Card   - [Spellcaster] 1600 ATK, 1600 DEF. Add 1 "Guardian" card from the deck to your hand on flip.
+  8669: 'Ritual of Destruction',                // Spell Card     - Ritual Summon for "Garlandolf, King of Destruction" (level 7).
+  8650: 'Garlandolf, King of Destruction',      // Monster Card   - [Fiend/Ritual] 2500 ATK, 1400 DEF. Can only be Ritual Summoned and destroys all other face-up monsters on the field with DEF <= 2500. Gains 100 ATK per monster destroyed with effect.
+  5210: 'Jar of Greed',                         // Trap Card      - Draw 1 card
+  4696: 'Fake Trap',                            // Trap Card      - Can only be activated when your opponent uses an effect to destroy your Trap Card(s). Destroy this card instead of those cards.
+  4828: 'Ectoplasmer',
 };
