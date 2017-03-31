@@ -7,12 +7,16 @@ const proxy = Proxy();
 const cardMap = require('./cardmap');
 let config = require('./config');
 
+[['config'], ['cardmap', 'cardMap']].forEach((val) => {
+  const fileName = val[0];
+  const varName = val[1] || val[0];
 
-fs.watchFile('./config.js', (curr, prev) => {
-  if(curr.mtime == prev.mtime) return;  // Do nothing if file was not modified
-  delete require.cache[require.resolve('./config')];  // Clear cached require entry
-  config = require('./config');  // Reload config
-  console.log('Config file modified, reloading...');
+  fs.watchFile(`./${fileName}.js`, (curr, prev) => {
+    if(curr.mtime == prev.mtime) return;  // Do nothing if file was not modified
+    delete require.cache[require.resolve(`./${fileName}`)];  // Clear cached require entry
+    global[varName] = require(`./${fileName}`);  // Reload config
+    console.log(`${fileName}.js modified, reloading file...`);
+  });
 });
 
 proxy.onRequest(function(ctx, callback) {
