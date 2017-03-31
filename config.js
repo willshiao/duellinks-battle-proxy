@@ -3,7 +3,7 @@
 module.exports =
 {
   replace: {
-    myDeck: true,  // If true, replaces your deck
+    myDeck: false,  // If true, replaces your deck
     theirDeck: true,  // If true, replaces their deck
     randSeed: true  // If true, replaces the RandSeed value
   },

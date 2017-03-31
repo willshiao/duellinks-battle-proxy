@@ -5,8 +5,15 @@ const Proxy = require('http-mitm-proxy');
 const proxy = Proxy();
 
 const cardMap = require('./cardmap');
-const config = require('./config');
+let config = require('./config');
 
+
+fs.watchFile('./config.js', (curr, prev) => {
+  if(curr.mtime == prev.mtime) return;  // Do nothing if file was not modified
+  delete require.cache[require.resolve('./config')];  // Clear cached require entry
+  config = require('./config');  // Reload config
+  console.log('Config file modified, reloading...');
+});
 
 proxy.onRequest(function(ctx, callback) {
   if (ctx.clientToProxyRequest.headers.host == 'att-jpb.mo.konami.net') {
