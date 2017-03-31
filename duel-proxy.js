@@ -4,8 +4,10 @@ const fs = require('fs');
 const Proxy = require('http-mitm-proxy');
 const proxy = Proxy();
 
-const cardMap = require('./cardmap');
-let config = require('./config');
+const ext = {
+  cardMap: require('./cardmap'),
+  config: require('./config'),
+};
 
 [['config'], ['cardmap', 'cardMap']].forEach((val) => {
   const fileName = val[0];
@@ -14,7 +16,7 @@ let config = require('./config');
   fs.watchFile(`./${fileName}.js`, (curr, prev) => {
     if(curr.mtime == prev.mtime) return;  // Do nothing if file was not modified
     delete require.cache[require.resolve(`./${fileName}`)];  // Clear cached require entry
-    global[varName] = require(`./${fileName}`);  // Reload config
+    ext[varName] = require(`./${fileName}`);  // Reload config
     console.log(`${fileName}.js modified, reloading file...`);
   });
 });
@@ -32,8 +34,8 @@ proxy.onRequest(function(ctx, callback) {
     ctx.onResponseEnd((ctx, callback) => {
       const body = parseRequest(Buffer.concat(chunks));
       ctx.proxyToClientResponse.write(body);
-      if(config.logging.enabled) {
-        fs.appendFile(config.logging.filename, body.toString() + config.logging.divider, () => {
+      if(ext.config.logging.enabled) {
+        fs.appendFile(ext.config.logging.filename, body.toString() + ext.config.logging.divider, () => {
           return callback();
         });
       } else {
@@ -77,27 +79,27 @@ function editRequest(data) {
   console.log('Their deck (original):', prettyDeck(theirDeck.Main.CardIds));
   console.log('My deck:', prettyDeck(myDeck.Main.CardIds));
 
-  if(config.replace.theirDeck) {
-    theirDeck.Main.CardIds = config.new.theirDeck;
+  if(ext.config.replace.theirDeck) {
+    theirDeck.Main.CardIds = ext.config.new.theirDeck;
     theirDeck.Main.Rare = Array(theirDeck.Main.CardIds.length).fill(1);
   }
 
-  if(config.replace.myDeck) {
-    myDeck.Main.CardIds = config.new.myDeck;
+  if(ext.config.replace.myDeck) {
+    myDeck.Main.CardIds = ext.config.new.myDeck;
     myDeck.Main.Rare = Array(myDeck.Main.CardIds.length).fill(1);
   }
 
-  if(config.enableAuto) {
+  if(ext.config.enableAuto) {
     data.res[0][1].Duel.auto = 1;
   }
 
-  if(config.makeRare) {
+  if(ext.config.makeRare) {
     // Make all my cards rare
     myDeck.Main.Rare = myDeck.Main.Rare.map(c => 3);
   }
 
-  if(config.replace.randSeed) {
-    data.res[0][1].Duel.RandSeed = config.new.randSeed;
+  if(ext.config.replace.randSeed) {
+    data.res[0][1].Duel.RandSeed = ext.config.new.randSeed;
   }
 
   console.log('New Random Seed:', data.res[0][1].Duel.RandSeed);
@@ -113,8 +115,8 @@ function editRequest(data) {
 
 function prettyDeck(deckIds) {
   return deckIds.map(id => {
-    if(id in cardMap)
-      return cardMap[id] + ` (${id})`;
+    if(id in ext.cardMap)
+      return ext.cardMap[id] + ` (${id})`;
     return id;
   });
 }
