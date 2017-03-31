@@ -5,22 +5,8 @@ const Proxy = require('http-mitm-proxy');
 const proxy = Proxy();
 
 const cardMap = require('./cardmap');
+const config = require('./config');
 
-const REPLACE_THEIR_DECK = true;
-const theirReplacementDeck = [];
-
-const REPLACE_MY_DECK = false;
-const myReplacementDeck = [];
-
-const REPLACE_RAND_SEED = true;
-const newRandSeed = 13371337;
-
-const MAKE_RARE = true;
-const ENABLE_AUTO = true;
-
-const ENABLE_LOGGING = true;
-const DIVIDER_STRING = '\n=======================================================\n';
-const LOG_FILE = 'responses.txt';
 
 proxy.onRequest(function(ctx, callback) {
   if (ctx.clientToProxyRequest.headers.host == 'att-jpb.mo.konami.net') {
@@ -35,8 +21,8 @@ proxy.onRequest(function(ctx, callback) {
     ctx.onResponseEnd((ctx, callback) => {
       const body = parseRequest(Buffer.concat(chunks));
       ctx.proxyToClientResponse.write(body);
-      if(ENABLE_LOGGING) {
-        fs.appendFile(LOG_FILE, body.toString() + DIVIDER_STRING, () => {
+      if(config.logging.enabled) {
+        fs.appendFile(config.logging.filename, body.toString() + config.logging.divider, () => {
           return callback();
         });
       } else {
@@ -80,27 +66,27 @@ function editRequest(data) {
   console.log('Their deck (original):', prettyDeck(theirDeck.Main.CardIds));
   console.log('My deck:', prettyDeck(myDeck.Main.CardIds));
 
-  if(REPLACE_THEIR_DECK) {
-    theirDeck.Main.CardIds = theirReplacementDeck;
+  if(config.replace.theirDeck) {
+    theirDeck.Main.CardIds = config.new.theirDeck;
     theirDeck.Main.Rare = Array(theirDeck.Main.CardIds.length).fill(1);
   }
 
-  if(REPLACE_MY_DECK) {
-    myDeck.Main.CardIds = myReplacementDeck;
+  if(config.replace.myDeck) {
+    myDeck.Main.CardIds = config.new.myDeck;
     myDeck.Main.Rare = Array(myDeck.Main.CardIds.length).fill(1);
   }
 
-  if(ENABLE_AUTO) {
+  if(config.enableAuto) {
     data.res[0][1].Duel.auto = 1;
   }
 
-  if(MAKE_RARE) {
+  if(config.makeRare) {
     // Make all my cards rare
     myDeck.Main.Rare = myDeck.Main.Rare.map(c => 3);
   }
 
-  if(REPLACE_RAND_SEED) {
-    data.res[0][1].Duel.RandSeed = newRandSeed;
+  if(config.replace.randSeed) {
+    data.res[0][1].Duel.RandSeed = config.new.randSeed;
   }
 
   console.log('New Random Seed:', data.res[0][1].Duel.RandSeed);
