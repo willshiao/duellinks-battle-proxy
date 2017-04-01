@@ -22,4 +22,11 @@ module.exports =
     divider: '\n=======================================================\n',
     filename: 'responses.txt',
   },
+  
+  loggingc: {
+    enabled: true,  // Whether or not to log client requests
+    divider: '\n=======================================================\n',
+    filename: 'requests.txt',
+  },
+
 };
