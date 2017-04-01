@@ -69,6 +69,7 @@ function parseRequest(chunk) {
       console.log('Unknown error:', e);
     return chunk;
   }
+  fs.appendFile(ext.config.loggingc.filename, req.toString() + ext.config.loggingc.divider, () => {});
   return req;
 }
 
