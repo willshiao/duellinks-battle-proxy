@@ -38,8 +38,8 @@ proxy.onRequest(function(ctx, callback) {
     ctx.onResponseEnd((ctx, callback) => {
       const body = parseRequest(Buffer.concat(chunks));
       ctx.proxyToClientResponse.write(body);
-      if(ext.config.logging.enabled) {
-        fs.appendFile(ext.config.logging.filename, body.toString() + ext.config.logging.divider, () => {
+      if(ext.config.logging.res.enabled) {
+        fs.appendFile(ext.config.logging.res.filename, body.toString() + ext.config.logging.res.divider, () => {
           return callback();
         });
       } else {
@@ -69,7 +69,9 @@ function parseRequest(chunk) {
       console.log('Unknown error:', e);
     return chunk;
   }
-  fs.appendFile(ext.config.loggingc.filename, req.toString() + ext.config.loggingc.divider, () => {});
+  // if(ext.config.logging.req.enabled) {
+  //   fs.appendFile(ext.config.logging.req.filename, req.toString() + ext.config.logging.req.divider, () => {});
+  // }
   return req;
 }
 

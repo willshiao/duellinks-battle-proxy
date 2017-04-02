@@ -43,5 +43,6 @@ jspm_packages
 # Ignore http-mitm-proxy certificate folder
 .http-mitm-proxy
 
-# Ignore responses file
+# Ignore requests and responses file
 responses.txt
+requests.txt

@@ -18,15 +18,16 @@ module.exports =
   enableAuto: true, // If enabled, enables auto-dueling for all duelists
 
   logging: {
-    enabled: true,  // Whether or not to log server responses
-    divider: '\n=======================================================\n',
-    filename: 'responses.txt',
-  },
-  
-  loggingc: {
-    enabled: true,  // Whether or not to log client requests
-    divider: '\n=======================================================\n',
-    filename: 'requests.txt',
+    res: {
+      enabled: true,  // Whether or not to log server responses
+      divider: '\n=======================================================\n',
+      filename: 'responses.txt',
+    },
+    req: {
+      enabled: true,  // Whether or not to log client requests
+      divider: '\n=======================================================\n',
+      filename: 'requests.txt',
+    },
   },
 
 };
