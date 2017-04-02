@@ -49,4 +49,11 @@ module.exports =
   5210: 'Jar of Greed',                         // Trap Card      - Draw 1 card
   4696: 'Fake Trap',                            // Trap Card      - Can only be activated when your opponent uses an effect to destroy your Trap Card(s). Destroy this card instead of those cards.
   4828: 'Ectoplasmer',
-};
+  9362: 'The Golden Apples',					          // Trap Card	  - When you take battle damage while you control no monsters: Gain LP equal to the battle damage you took, and if you do, Special Summon 1 "Malus Token" (Fiend-Type/DARK/Level 1/ATK ?/DEF ?). Its ATK and DEF are each equal to the amount of LP you gained by this effect.
+  5044: 'Rigorous Reaver',						          // Monster Card	  - UR 3-Star [Plant/Flip/Effect] 1600 ATK, 100 DEF. FLIP: Each player discards 1 card. Effect: If this card is destroyed by battle: The monster that destroyed it loses 500 ATK and DEF.
+  4846: 'Burning Spear',						            // Spell Card	  - Equip a FIRE Monster with that: +400 ATK and -200 DEF.
+  6260: 'Flame Ruler',							            // Monster Card	  - 4-Star [Pyro/Effect] 1500 ATK, 1600 DEF. Can be used as 2 tributes for summoning a FIRE Monster.
+  5333: 'Tyrant Dragon',						            // Monster Card	  - UR 8-Star [Dragon/Effect] During your Battle Phase, if your opponent controls a monster after this card's first attack, this card can make a second attack. Negate any Trap effects that target this card, and if you do, destroy that Trap Card. This card cannot be Special Summoned from the Graveyard, unless you Tribute 1 Dragon-Type monster..
+  6531: 'Mythical Beast Cerberus',				      // Monster Card	  - SR 4-Star [Spellcaster/Effect] Each time a Spell Card is activated, place 1 Spell Counter on this card when that Spell Card resolves. This card gains 500 ATK for each Spell Counter on it. If damage calculation is conducted involving this card, remove all Spell Counters from it at the end of the Battle Phase.
+  4326: 'Stop Defense',							            // Spell Card	  - Select 1 Defense Position monster on your opponent's side of the field and change it to Attack Position.
+  };
