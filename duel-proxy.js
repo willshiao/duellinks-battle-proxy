@@ -36,7 +36,7 @@ proxy.onRequest(function(ctx, callback) {
     });
 
     ctx.onResponseEnd((ctx, callback) => {
-      const body = parseRequest(Buffer.concat(chunks));
+      const body = parseResponse(Buffer.concat(chunks));
       ctx.proxyToClientResponse.write(body);
       if(ext.config.logging.res.enabled) {
         fs.appendFile(ext.config.logging.res.filename, body.toString() + ext.config.logging.res.divider, () => {
@@ -54,13 +54,13 @@ proxy.listen({port: 8000}, () => {
   console.log('Listening on port 8000.');
 });
 
-function parseRequest(chunk) {
+function parseResponse(chunk) {
   let req = chunk.toString();
   try {
     if(req.charAt(0) == '@') req = req.slice(1);  // Remove '@'
     // Parse JSON
     let data = JSON.parse(req);
-    data = editRequest(data);
+    data = editResponse(data);
     req = '@' + JSON.stringify(data);
   } catch(e) {
     if(e.name == 'TypeError')
@@ -75,7 +75,7 @@ function parseRequest(chunk) {
   return req;
 }
 
-function editRequest(data) {
+function editResponse(data) {
   if(!data.res || !data.res[0] || !data.res[0][1] || !data.res[0][1].Duel)
     return data;
   const myDeck = data.res[0][1].Duel.Deck[0];
