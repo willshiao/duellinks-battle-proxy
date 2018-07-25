@@ -33,4 +33,4 @@ Modify `theirReplacementDeck` in `duel-proxy.js` to an array of the card IDs you
 ## Possible Fixes
 One way to fix this vulnerbility is to use a [HMAC](https://en.wikipedia.org/wiki/Hash-based_message_authentication_code) to verify the contents of the server response (it seems like client requests already use some sort of MAC, but not server responses).
 
-Another, easier way to fix the vulnerbility on a majority of devices would be to use [HPKG](https://en.wikipedia.org/wiki/HTTP_Public_Key_Pinning), which would stop the application from trusting other public keys. However, this could be circumvented on jailbroken or root devices with applications that disable certificate pinning.
+Another, easier way to fix the vulnerbility on a majority of devices would be to use [HPKP](https://en.wikipedia.org/wiki/HTTP_Public_Key_Pinning), which would stop the application from trusting other public keys. However, this could be circumvented on jailbroken or root devices with applications that disable certificate pinning.
