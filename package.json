@@ -4,7 +4,7 @@
   "description": "An intercepting proxy for Yu-Gi-Oh! Duel Links that lets you view NPC decks and replace them with cards of your choosing.",
   "main": "duel-proxy.js",
   "dependencies": {
-    "http-mitm-proxy": "^0.5.2"
+    "http-mitm-proxy": "^0.10.0"
   },
   "devDependencies": {},
   "scripts": {
